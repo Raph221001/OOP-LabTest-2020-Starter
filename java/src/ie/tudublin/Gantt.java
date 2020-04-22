@@ -11,7 +11,7 @@ public class Gantt extends PApplet
 	//ArrayList created
 	ArrayList<Tasks> tasks = new ArrayList<Tasks>();
 
-	private float leftGap;
+	private float leftEdge;
 	private float margin;
 
 	public void settings() {
@@ -36,6 +36,7 @@ public class Gantt extends PApplet
 	}
 
 	public void displayTasks() {
+		//creating variables
 		float lines;
 		int Days = 30;
 		float y;
@@ -43,7 +44,7 @@ public class Gantt extends PApplet
 		float rectStart;
 		float rectEnd;
 		float rectWidth;
-		float border = width * 0.05f;
+		float colour;
 		colorMode(HSB);
 
 		fill(255);
@@ -51,24 +52,31 @@ public class Gantt extends PApplet
 
 		textAlign(CENTER, CENTER);
 
+		//Lines and numbers drawn
 		for (int i = 1; i <= Days; i++) {
-			lines = map(i, 0, Days, 30, width);
-			text(i, lines,height - 540);
+			lines = map(i, 1, Days, 30, width);
+			text(i, lines, height - 540);
 			line(lines, 100, lines, height - 50);
 		}
 
+		//places text to left
 		textAlign(LEFT, CENTER);
-		float radius = 3;
 
+		//Displaying tasks
 		for (int i = 0; i < tasks.size(); i++){
-			Tasks words = tasks.get(i);
-			y = map(tasks.get(i).getStart(), 0, 30, border, width - border);
-			text(words.getTasks(), border/2, y );
+			fill(255);
+			y = map(i, 0, tasks.size(), 2 * margin, height - margin);
+			text(tasks.get(i).getTasks(), margin, y);
+			noStroke();
+			colour = map(i, 0, tasks.size(), 0, 255);
+			fill(colour, 255, 255);
 
-			rectStart = map(tasks.get(i).getStart(), 1, 30, leftGap, width - margin);
-			rectEnd = map(tasks.get(i).getEndtime(), 1, 30, leftGap, width - margin);
+			//rectangles are drawn
+			rectStart = map(tasks.get(i).getStart(), 1, 30, leftEdge, width - margin);
+			rectEnd = map(tasks.get(i).getEndtime(), 1, 30, leftEdge, width - margin);
 			rectWidth = rectEnd - rectStart;
-			rect(rectStart, y - rectHeight / 2, rectWidth, rectHeight, radius);
+
+			rect(rectStart, y - rectHeight / 2, rectWidth, rectHeight);
 		}
 	}
 
@@ -85,6 +93,8 @@ public class Gantt extends PApplet
 	public void setup() {
 		loadTasks();
 		printTasks();
+		leftEdge = width / 4;
+		margin = width / 10;
 	}
 
 	public void draw() {
