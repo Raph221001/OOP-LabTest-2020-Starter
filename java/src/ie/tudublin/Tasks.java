@@ -45,6 +45,10 @@ public class Tasks {
         this(tr.getString("Task"), tr.getInt("Start"), tr.getInt("End"));
     }
 
+    public String toString() {
+        return "Name of the tasks = " + Tasks + ", Start = " + Starttime + ", End = " + Endtime;
+    }
+
     public static void main (String...args){
         PApplet.main("ie.tudublin.Tasks");
     }
